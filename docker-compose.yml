@@ -1,0 +1,15 @@
+version: "2"
+
+services:
+    appi:
+        build: .
+        volumes:
+            - .:/app
+        working_dir: /app
+        environment:
+            - FLASK_APP=app.py
+            - FLASK_DEBUG=1
+        command: flask run --host=0.0.0.0
+        ports:
+            - 5001:5000
+
