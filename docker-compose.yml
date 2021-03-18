@@ -1,0 +1,24 @@
+version: "2"
+
+services:
+    api:
+        build: .
+        volumes:
+            - ./auth/:/app
+        working_dir: /app
+        environment:
+            - FLASK_APP=./auth/app.py
+            - FLASK_DEBUG=1
+        command: flask run --host=0.0.0.0
+        ports:
+            - 5000:5000
+    mongodb:
+        container_name: microservices_mongo
+        image: mongo
+        ports:
+            - 27017:27017
+        volumes:
+            - mongodata:/data/db
+
+volumes:
+    mongodata:
