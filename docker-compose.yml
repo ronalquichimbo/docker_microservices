@@ -13,7 +13,7 @@ services:
         ports:
             - 5000:5000
     mongodb:
-        container_name: microservices_mongo
+        container_name: microservi_mongo
         image: mongo
         ports:
             - 27017:27017
