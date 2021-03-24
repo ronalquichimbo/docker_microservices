@@ -34,16 +34,16 @@ services:
         command: flask run --host=0.0.0.0
         ports:
             - 5002:5000
-    gateway: 
-        build: .
-        volumes:
-            - ./gateway:/app
-        working_dir: /app
-        command: python subscriber.py
     eventos: 
         build: .
         volumes:
             - ./eventos:/app
+        working_dir: /app
+        command: python subscriber.py
+    gateway: 
+        build: .
+        volumes:
+            - ./gateway:/app
         working_dir: /app
         environment:
             - FLASK_APP=app.py
