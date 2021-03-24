@@ -36,6 +36,7 @@ def me():
     return jsonify(user_data)
 
 @app.route('/users', methods=['POST'])
+
 def create_user():
     #recibiendo datos
     username= request.json['username']
