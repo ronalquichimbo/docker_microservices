@@ -1,9 +1,0 @@
-hola como estas
-<<<<<<< HEAD
-v3-vamos tu puedes ma
-=======
-
-3am
-
->>>>>>> v3
-provando git
