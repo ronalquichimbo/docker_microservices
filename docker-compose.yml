@@ -1,17 +1,56 @@
 version: "2"
 
 services:
-    api:
+    auth:
         build: .
         volumes:
-            - ./auth/:/app
+            - ./auth:/app
         working_dir: /app
         environment:
-            - FLASK_APP=./auth/app.py
+            - FLASK_APP=app.py
             - FLASK_DEBUG=1
         command: flask run --host=0.0.0.0
         ports:
             - 5000:5000
+    movies:
+        build: .
+        volumes:
+            - ./movies:/app
+        working_dir: /app
+        environment:
+            - FLASK_APP=app.py
+            - FLASK_DEBUG=1
+        command: flask run --host=0.0.0.0
+        ports:
+            - 5001:5000
+    reviews:
+        build: .
+        volumes:
+            - ./reviews:/app
+        working_dir: /app
+        environment:
+            - FLASK_APP=app.py
+            - FLASK_DEBUG=1
+        command: flask run --host=0.0.0.0
+        ports:
+            - 5002:5000
+    eventos: 
+        build: .
+        volumes:
+            - ./eventos:/app
+        working_dir: /app
+        command: python subscriber.py
+    gateway: 
+        build: .
+        volumes:
+            - ./gateway:/app
+        working_dir: /app
+        environment:
+            - FLASK_APP=app.py
+            - FLASK_DEBUG=1
+        command: flask run --host=0.0.0.0
+        ports:
+            - 5003:5000
     mongodb:
         container_name: microservi_mongo
         image: mongo
@@ -19,6 +58,13 @@ services:
             - 27017:27017
         volumes:
             - mongodata:/data/db
+    redis:
+        container_name: microservices_redis
+        image: redis
+        restart: always
+        ports:
+            - 6379:6379
 
 volumes:
     mongodata:
+
