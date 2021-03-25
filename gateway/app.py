@@ -6,11 +6,11 @@ from auth import jwt
 
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'Bruce Wayne is Batman'
+app.config['SECRET_KEY'] = 'tesis_devsecops'
 jwt.init_app(app)
 
-MOVIES_SERVICE_URL = 'http://movies:5001'
-REVIEWS_SERVICE_URL = 'http://reviews:5002'
+MOVIES_SERVICE_URL = 'http://172.20.0.1:5001'
+REVIEWS_SERVICE_URL = 'http://172.20.0.1:5002'
 
 
 @app.route('/movies/')
