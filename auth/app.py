@@ -12,7 +12,7 @@ class User(object):
 
 
 def authenticate(username, password):
-   
+
     result = db_client.users.find_one({'username': username})
     if not result is None:
         clave = check_password_hash(result['password'],password)
@@ -20,7 +20,7 @@ def authenticate(username, password):
             
             return User(str(result['_id']), result['username'])
     return None
-     
+    
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'tesis_devsecops'
 
@@ -57,8 +57,6 @@ def create_user():
             respose= {
                 'id': str(id),
                 'username': username,
-                'password': hashed_password,
-                # 'email':email,
                 'registrado':'registrado'
             }
             return respose

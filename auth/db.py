@@ -2,5 +2,5 @@ from pymongo import MongoClient
 
 DB_NAME = 'auth'
 
-connection = MongoClient(f'mongodb://172.20.0.1:27017/{DB_NAME}')
+connection = MongoClient(f'mongodb://mongodb:27017/{DB_NAME}')
 db_client = connection[DB_NAME]

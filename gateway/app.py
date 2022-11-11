@@ -9,8 +9,8 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'tesis_devsecops'
 jwt.init_app(app)
 
-MOVIES_SERVICE_URL = 'http://172.20.0.1:5001'
-REVIEWS_SERVICE_URL = 'http://172.20.0.1:5002'
+MOVIES_SERVICE_URL = 'http://127.0.0.1:5001'
+REVIEWS_SERVICE_URL = 'http://127.0.0.1:5002'
 
 
 @app.route('/movies/')

@@ -2,7 +2,7 @@ import json
 
 import redis
 
-broker = redis.Redis(host='172.20.0.1', port=6379, db=0)
+broker = redis.Redis(host='127.0.0.1', port=6379, db=0)
 
 
 def parse_event(event):

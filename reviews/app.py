@@ -16,7 +16,7 @@ jwt.init_app(app)
 @jwt_required()
 def movie_review(movie_id):
     data = request.json
-    url = f'http://172.20.0.1:5001/movies/{movie_id}'
+    url = f'http://127.0.0.1:5001/movies/{movie_id}'
     response = requests.get(url)
     if not response.ok:
         return jsonify({'error': 'Movie not found'}), 404
