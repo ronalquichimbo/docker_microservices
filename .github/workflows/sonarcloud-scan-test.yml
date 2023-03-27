@@ -54,6 +54,7 @@
 #           DEFAULT_BRANCH: master
 #           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+
 name: gitleaks
 on:
   pull_request:
