@@ -55,8 +55,15 @@
 #           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 
-name: gitleaks
-on: [push]
+name: Gitleaks
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
   scan:
@@ -69,4 +76,4 @@ jobs:
       - uses: gitleaks/gitleaks-action@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITLEAKS_LICENSE: ${{ secrets.GITLEAKS_LICENSE}} # Only required for Organizations, not personal accounts.# Only required for Organizations, not personal accounts.
+        Only required for Organizations, not personal accounts.# Only required for Organizations, not personal accounts.
