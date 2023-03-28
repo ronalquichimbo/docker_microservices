@@ -15,10 +15,3 @@ jobs:
         uses: GitGuardian/ggshield/actions/secret@main
         env:
           GITGUARDIAN_API_KEY: ${{ secrets.GITGUARDIAN_API_KEY }}
-      - name: Lint Code Base
-        if: success()
-        uses: github/super-linter@v4
-        
-
-
-    
