@@ -16,6 +16,7 @@ jobs:
         env:
           GITGUARDIAN_API_KEY: ${{ secrets.GITGUARDIAN_API_KEY }}
   lint_code:
+    needs: scanning
     name: Lint Code Base
     runs-on: ubuntu-latest
     steps:
@@ -63,8 +64,7 @@ jobs:
     name: SonarCloud
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-        # Shallow clones should be disabled for a better relevancy of analysis
+      - uses: actions/checkout@v3
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
