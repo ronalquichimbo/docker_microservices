@@ -36,6 +36,13 @@ jobs:
     - name: checkout source repo
       uses: actions/checkout@main
 
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install flake8 pytest
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+
     - name: linting
       uses: programmingwithalex/pylinter@main
       with:
@@ -43,7 +50,7 @@ jobs:
         flake8-flags: ''
         mypy-flags: ''
         fail-on-isort: false
-        # skip-flake8: false
+        skip-flake8: false
         # skip-mypy: false
         # skip-isort: false
         # mypy-ignore-dirs-files: ''
@@ -54,11 +61,15 @@ jobs:
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         git add -A && git diff-index --cached --quiet HEAD || git commit -m 'isort'
+
     - name: push isort changes
       uses: ad-m/github-push-action@master
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         branch: ${{ github.ref }}
+    - name: Test with pytest
+      run: |
+        if [ -d tests ] || [ -d test ]; then python -m pytest; fi
 
   sonarcloud:
     name: SonarCloud
