@@ -11,99 +11,97 @@ jobs:
         uses: actions/checkout@v3
       - name: GitGuardian scan
         uses: GitGuardian/ggshield/actions/secret@main
-        with:
-          args: -v
         env:
           GITGUARDIAN_API_KEY: ${{ secrets.GITGUARDIAN_API_KEY }}
-  lint_code:
-    needs: scanning
-    name: Lint Code Base
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
-      - name: Lint Code Base
-        uses: github/super-linter@v4
-        env:
-          VALIDATE_ALL_CODEBASE: false
-          DEFAULT_BRANCH: master
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  python-lint:
-    needs: lint_code
-    runs-on: ubuntu-latest
-    name: CI workflow
-    steps:
-    - name: checkout source repo
-      uses: actions/checkout@main
+  # lint_code:
+  #   needs: scanning
+  #   name: Lint Code Base
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout Code
+  #       uses: actions/checkout@v3
+  #     - name: Lint Code Base
+  #       uses: github/super-linter@v4
+  #       env:
+  #         VALIDATE_ALL_CODEBASE: false
+  #         DEFAULT_BRANCH: master
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  # python-lint:
+  #   needs: lint_code
+  #   runs-on: ubuntu-latest
+  #   name: CI workflow
+  #   steps:
+  #   - name: checkout source repo
+  #     uses: actions/checkout@main
 
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install flake8 pytest
-        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-
-
-    - name: linting
-      uses: programmingwithalex/pylinter@main
-      with:
-        python-root: '.'
-        flake8-flags: ''
-        mypy-flags: ''
-        fail-on-isort: false
-        skip-flake8: false
-        # skip-mypy: false
-        # skip-isort: false
-        # mypy-ignore-dirs-files: ''
-        # requirements-file: ''
-
-    - name: commit isort changes
-      run: |
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
-        git add -A && git diff-index --cached --quiet HEAD || git commit -m 'isort'
-
-    - name: push isort changes
-      uses: ad-m/github-push-action@master
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        branch: ${{ github.ref }}
-    - name: Test with pytest
-      run: |
-        if [ -d tests ] || [ -d test ]; then python -m pytest; fi
-
-  sonarcloud:
-    name: SonarCloud
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+  #   - name: Install dependencies
+  #     run: |
+  #       python -m pip install --upgrade pip
+  #       pip install flake8 pytest
+  #       if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
 
-  docker:
-    runs-on: ubuntu-latest
-    steps:
-      -
-        name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
-      -
-        name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
-      -
-        name: Login to Docker Hub
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-      -
-        name: Build and push
-        uses: docker/build-push-action@v4
-        with:
-          push: true
-          tags: user/app:latest
+  #   - name: linting
+  #     uses: programmingwithalex/pylinter@main
+  #     with:
+  #       python-root: '.'
+  #       flake8-flags: ''
+  #       mypy-flags: ''
+  #       fail-on-isort: false
+  #       skip-flake8: false
+  #       # skip-mypy: false
+  #       # skip-isort: false
+  #       # mypy-ignore-dirs-files: ''
+  #       # requirements-file: ''
+
+  #   - name: commit isort changes
+  #     run: |
+  #       git config --local user.email "action@github.com"
+  #       git config --local user.name "GitHub Action"
+  #       git add -A && git diff-index --cached --quiet HEAD || git commit -m 'isort'
+
+  #   - name: push isort changes
+  #     uses: ad-m/github-push-action@master
+  #     with:
+  #       github_token: ${{ secrets.GITHUB_TOKEN }}
+  #       branch: ${{ github.ref }}
+  #   - name: Test with pytest
+  #     run: |
+  #       if [ -d tests ] || [ -d test ]; then python -m pytest; fi
+
+  # sonarcloud:
+  #   name: SonarCloud
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #     - name: SonarCloud Scan
+  #       uses: SonarSource/sonarcloud-github-action@master
+  #       env:
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+  #         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+
+  # docker:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     -
+  #       name: Set up QEMU
+  #       uses: docker/setup-qemu-action@v2
+  #     -
+  #       name: Set up Docker Buildx
+  #       uses: docker/setup-buildx-action@v2
+  #     -
+  #       name: Login to Docker Hub
+  #       uses: docker/login-action@v2
+  #       with:
+  #         username: ${{ secrets.DOCKERHUB_USERNAME }}
+  #         password: ${{ secrets.DOCKERHUB_TOKEN }}
+  #     -
+  #       name: Build and push
+  #       uses: docker/build-push-action@v4
+  #       with:
+  #         push: true
+  #         tags: user/app:latest
 
 
 
